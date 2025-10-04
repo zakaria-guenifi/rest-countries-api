@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <title>Where in the world? | Zakaria Guenifi</title>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-width-div">
+      <a href="./index.html">Where in the world?</a>
+      <button type="button" id="theme-btn">
+        <svg class="visible" id="dark-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+          <path
+            d="M481.15-140q-141.66 0-240.83-99.17-99.16-99.16-99.16-240.83 0-135.77 92.11-232.88 92.11-97.12 225.57-105.2 8.62 0 16.93.62 8.3.62 16.3 1.85-30.61 28.61-48.76 69.15-18.16 40.54-18.16 86.46 0 98.33 68.84 167.17Q562.82-424 661.15-424q46.54 0 86.77-18.15 40.23-18.16 68.46-48.77 1.23 8 1.85 16.31.61 8.3.61 16.92-7.69 133.46-104.8 225.57Q616.92-140 481.15-140Zm0-60q88 0 158-48.5t102-126.5q-20 5-40 8t-40 3q-123 0-209.5-86.5T365.15-660q0-20 3-40t8-40q-78 32-126.5 102t-48.5 158q0 116 82 198t198 82Zm-10-270Z" />
+        </svg>
+        <svg class="hidden" id="light-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+          <path
+            d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 60q-74.92 0-127.46-52.54Q300-405.08 300-480q0-74.92 52.54-127.46Q405.08-660 480-660q74.92 0 127.46 52.54Q660-554.92 660-480q0 74.92-52.54 127.46Q554.92-300 480-300ZM200-450H50v-60h150v60Zm710 0H760v-60h150v60ZM450-760v-150h60v150h-60Zm0 710v-150h60v150h-60ZM262.92-656.92l-93.69-90.46 42.39-44.39 90.23 92.69-38.93 42.16Zm485.46 488.69-90.84-93.31 39.54-41.54 93.69 90.46-42.39 44.39Zm-91.46-528.85 90.46-93.69 44.39 42.39-92.69 90.23-42.16-38.93ZM168.23-211.62l93.31-90.84 40.77 39.54-90.08 94.07-44-42.77ZM480-480Z" />
+        </svg>
+        <span class="dark-label visible" id="dark-span">Dark Mode</span>
+        <span class="light-label hidden" id="light-span">Light Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="controls-section">
+      <div class="search-wrapper">
+        <label for="search-input">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+            fill="currentColor">
+            <path
+              d="M380-320q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+          </svg>
+          <input type="text" id="search-input" placeholder="Search for a country...">
+        </label>
+      </div>
+      <div class="filter-by-region">
+        <button type="button" id="filter-btn" aria-expanded="false" aria-controls="region-list">
+          Filter by Region
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+            fill="currentColor">
+            <path
+              d="M480-361q-8 0-15-2.5t-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5Z" />
+          </svg>
+        </button>
+        <div class="regions-wrapper hidden">
+          <button type="button" data-region="Africa">Africa</button>
+          <button type="button" data-region="America">America</button>
+          <button type="button" data-region="Asia">Asia</button>
+          <button type="button" data-region="Europe">Europe</button>
+          <button type="button" data-region="Oceania">Oceania</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards-wrapper">
+      <article class="card" aria-labelledby="card-title">
+        <button type="button" class="card-button" data-country="Palestine">
+          <img src="./assets/ps.png" alt="Flag of Palestine">
+          <div class="info">
+            <h3 id="card-title">Palestine</h3>
+            <p><span class="stat">Population:</span> 4,803,269</p>
+            <p><span class="stat">Region:</span> Asia</p>
+            <p><span class="stat">Capital:</span> Jerusalem</p>
+          </div>
+        </button>
+      </article>
+      
+    </section>
+
+    <section class="details">
+      <button type="button" id="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+          <path
+            d="M398.08-253.85 171.92-480l226.16-226.15 42.15 43.38L287.46-510h500.62v60H287.46l152.77 152.77-42.15 43.38Z" />
+        </svg>
+        <span>Back</span>
+      </button>
+      <div class="details-wrapper">
+        <img src="./assets/ps.png" alt="Flag of Palestine">
+        <div class="info">
+          <h2>Palestine</h2>
+          <p><span class="stat">Native Name:</span> فلسطين</p>
+          <p><span class="stat">Population:</span> 4,803,269</p>
+          <p><span class="stat">Region:</span> Asia</p>
+          <p><span class="stat">Sub Region:</span> West Asia</p>
+          <p><span class="stat">Capital:</span> Jerusalem</p>
+        </div>
+        <div class="additional-info | info">
+          <p><span class="stat">Top Level Domain:</span> .pal</p>
+          <p><span class="stat">Currencies:</span> Dinar</p>
+          <p><span class="stat">Languages:</span> Arabic</p>
+        </div>
+        <div class="border-countries">
+          <h2>Border Countries:</h2>
+          <div class="border-countries-btns">
+            <button type="button">Syria</button>
+            <button type="button">Jordan</button>
+            <button type="button">Lebanon</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./main.js"></script>
+</body>
+
+</html>
