@@ -20,7 +20,7 @@ const backBtn = document.getElementById('back-btn');
 const detailsWrapper = document.querySelector('.details-wrapper');
 
 
-
+let saveScrollLevel = 0;
 let countries = [];
 
 async function fetchCountries() {
@@ -51,7 +51,7 @@ function generateCards(countries) {
 
     return `<article class="card" aria-label="${country.name.common}">
               <button type="button" class="card-button" data-country="${(country.name.common).split(" ").join("-")}">
-                  <img src="${country.flags.png}" alt="Flag of ${country.name.common}">
+                  <img src="${country.flags.png}" view-transition-name="${(country.name.common).split(" ").join("-")}" alt="Flag of ${country.name.common}">
                 <div class="info">
                   <h3>${country.name.common}</h3>
                   <p><span class="stat">Population:</span> ${country.population.toLocaleString()}</p>
@@ -95,11 +95,11 @@ async function fetchShowDetails(countryExtraDetails, selectedCountry) {
 
   const currencies = () => {
     if ((Object.keys(countryExtraDetails[0].currencies)).length > 1) {
-      return `${Object.values(countryExtraDetails[0].currencies)[0].name} (${Object.values(countryExtraDetails[0].currencies)[0].symbol}), 
-          ${Object.values(countryExtraDetails[0].currencies)[1].name} (${Object.values(countryExtraDetails[0].currencies)[1].symbol})`
+      return `${Object.values(countryExtraDetails[0].currencies)[0]?.name} (${Object.values(countryExtraDetails[0].currencies)[0]?.symbol}), 
+          ${Object.values(countryExtraDetails[0].currencies)[1]?.name} (${Object.values(countryExtraDetails[0].currencies)[1]?.symbol})`
 
     } else {
-      return `${Object.values(countryExtraDetails[0].currencies)[0].name} (${Object.values(countryExtraDetails[0].currencies)[0].symbol})`
+      return `${Object.values(countryExtraDetails[0].currencies)[0]?.name} (${Object.values(countryExtraDetails[0].currencies)[0]?.symbol})`
     }
   }
   countryDetailsGenerator(filteredCountryArr, countryExtraDetails, currencies);
@@ -152,11 +152,11 @@ async function fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCo
 // details generator from name
 function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, currencies) {
   detailsWrapper.innerHTML =
-    `<img src="${filteredCountryArr[0].flags.svg}" alt="Flag of ${filteredCountryArr[0].name.common}">
+    `<img src="${filteredCountryArr[0].flags.svg}" view-transition-name="${(filteredCountryArr[0].name.common).split(" ").join("-")}" alt="Flag of ${filteredCountryArr[0].name.common}">
     <div class="end-col">
       <div class="info">
         <h2>${filteredCountryArr[0].name.common}</h2>
-        <p><span class="stat">Native Name:</span> ${Object.values(filteredCountryArr[0].name.nativeName)[0].common}</p>
+        <p><span class="stat">Native Name:</span> ${(Object.values(filteredCountryArr[0].name.nativeName)[0]?.common) ?? filteredCountryArr[0].name.common}</p>
         <p><span class="stat">Population:</span> ${filteredCountryArr[0].population.toLocaleString()}</p>
         <p><span class="stat">Region:</span> ${filteredCountryArr[0].region}</p>
         <p><span class="stat">Sub Region:</span> ${countryExtraDetails[0].subregion ?? countryExtraDetails[0].region}</p>
@@ -326,8 +326,12 @@ document.addEventListener("click", (e) => {
 // click a card to show details
 cardsWrapper.addEventListener("click", (e) => {
 
+  // save the scroll level when a card is clicked so when we're back to homepage we return where we left off
+  saveScrollLevel = window.scrollY;
+
   const cardBtn = e.target.closest('button[data-country]');
   if (cardBtn && e.target !== cardsWrapper) {
+    
     openDetails();
 
     let selectedCountry = (cardBtn.dataset.country).split("-").join(" ");
@@ -353,6 +357,13 @@ backBtn.addEventListener("click", () => {
   details.classList.toggle("hidden");
   detailsWrapper.innerHTML = "";
 
+  document.documentElement.style.scrollBehavior = "auto";
+  document.documentElement.scrollTo(0, saveScrollLevel);
+  
+  // set to run before the next paint
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollBehavior = "smooth";
+  });
 })
 
 // click the border countries to see their details
@@ -367,5 +378,3 @@ detailsWrapper.addEventListener("click", (e) => {
   }
 })
 
-
-// TODO: fix the local json issue

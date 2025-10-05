@@ -87,6 +87,24 @@
   --shadow-500: 0 0px 15px oklch(0% 0 0 / 0.15);
 }
 
+/* @view-transition {
+  navigation: auto;
+}
+::view-transition-old(Lithuania),
+::view-transition-new(Lithuania) {
+  animation: none;
+}
+
+::view-transition-group(flag) {
+  animation: smooth-move 0.4s ease;
+}
+
+@keyframes smooth-move {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(0,0) scale(1); }
+} */
+
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --clr-gray-950: hsl(0, 0%, 100%);
