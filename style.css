@@ -305,7 +305,7 @@
 
     &:hover,
     &:focus-visible {
-      filter: brightness(0.92);
+      filter: brightness(0.8);
       box-shadow: var(--shadow-500);
     }
     @media (width < 610px) {
@@ -314,7 +314,7 @@
   }
 
   div:has(#search-input:focus-visible) {
-    filter: brightness(0.92);
+    filter: brightness(0.8);
     box-shadow: var(--shadow-500);
     outline: 2px solid var(--clr-gray-950);
   }
@@ -349,7 +349,7 @@
       }
       &:hover,
       &:focus-visible {
-        filter: brightness(0.92);
+        filter: brightness(0.8);
         box-shadow: var(--shadow-500);
       }
     }
@@ -398,7 +398,7 @@
 
       &:hover,
       &:focus-visible {
-        filter: brightness(0.92);
+        filter: brightness(0.8);
         box-shadow: var(--shadow-500), var(--shadow-400);
       }
       @media (width > 608px) {
@@ -408,7 +408,7 @@
 
     .card:has(button:focus-visible) {
       outline: 2px solid var(--clr-gray-950);
-      filter: brightness(0.92);
+      filter: brightness(0.8);
       box-shadow: var(--shadow-500), var(--shadow-400);
     }
 
@@ -532,8 +532,8 @@
 
           &:hover,
           &:focus-visible {
-            filter: brightness(0.96);
-            box-shadow: var(--shadow-500);
+            filter: brightness(0.8);
+            box-shadow: var(--shadow-500), var(--shadow-400);
           }
         }
       }
@@ -575,7 +575,7 @@
     }
     &:hover,
     &:focus-visible {
-      filter: brightness(0.92);
+      filter: brightness(0.8);
       box-shadow: var(--shadow-500), var(--shadow-400);
     }
   }

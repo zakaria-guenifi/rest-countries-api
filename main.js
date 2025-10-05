@@ -29,7 +29,7 @@ async function fetchCountries() {
     const response = await fetch("https://restcountries.com/v3.1/all?fields=name,cca3,flags,region,capital,population");
 
     if (!response.ok) {
-      throw new Error(response.statusText);
+      throw new Error("HTTP error! Status: " + response.statusText);
     }
 
     const data = await response.json();
@@ -38,14 +38,37 @@ async function fetchCountries() {
 
   } catch (error) {
     console.error(error.message);
+    console.timeEnd("fetchCountries");
+    const localResponse = await fetch("./assets/countries.json");
+    const localData = await localResponse.json();
+    return localData;
   }
 };
+
+function generateCards(countries) {
+
+  let cardsHTML = countries.map(country => {
+
+    return `<article class="card" aria-label="${country.name.common}">
+              <button type="button" class="card-button" data-country="${(country.name.common).split(" ").join("-")}">
+                  <img src="${country.flags.png}" alt="Flag of ${country.name.common}">
+                <div class="info">
+                  <h3>${country.name.common}</h3>
+                  <p><span class="stat">Population:</span> ${country.population.toLocaleString()}</p>
+                  <p><span class="stat">Region:</span> ${country.region}</p>
+                  <p><span class="stat">Capital:</span> ${country.name.common === "Palestine" ? "Jerusalem" : country.capital}</p>
+                </div>
+            </button>
+          </article>`
+  }).join("");
+  cardsWrapper.innerHTML = cardsHTML;
+
+}
 
 // fetch country details by name
 async function fetchCountryDetails(country) {
   try {
     const response = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(country)}?fields=name,cca3,subregion,tld,currencies,languages,borders`);
-    // console.log(`https://restcountries.com/v3.1/name/${encodeURIComponent(country)}?fields=name,subregion,tld,currencies,languages,borders`)
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -55,6 +78,10 @@ async function fetchCountryDetails(country) {
 
   } catch (error) {
     console.error(error.message);
+    const localResponse = await fetch("./assets/countries.json");
+    const localData = await localResponse.json();
+    const specificCountry = localData.filter(c => c.name.common === country);
+    return specificCountry;
   }
 }
 
@@ -81,19 +108,23 @@ async function fetchShowDetails(countryExtraDetails, selectedCountry) {
 
 // fetch country details by iso code
 async function fetchCountryDetailsIsoCode(selectedCountryIsoCode) {
+
   try {
     const response = await fetch(`https://restcountries.com/v3.1/alpha/${encodeURIComponent(selectedCountryIsoCode)}?fields=name,cca3,subregion,tld,currencies,languages,borders`);
-    // console.log(`https://restcountries.com/v3.1/alpha/${encodeURIComponent(selectedCountryIsoCode)}?fields=name,subregion,tld,currencies,languages,borders`)
     if (!response.ok) {
       throw new Error(response.statusText);
     }
-    
+
     const countryDetails = await response.json();
     // console.log(countryDetails)
     return countryDetails;
 
   } catch (error) {
     console.error(error.message);
+    const localResponse = await fetch("./assets/countries.json");
+    const localData = await localResponse.json();
+    const specificCountry = localData.find(c => c.cca3 === selectedCountryIsoCode);
+    return specificCountry;
   }
 }
 
@@ -117,25 +148,6 @@ async function fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCo
 
 }
 
-function generateCards(countries) {
-
-  let cardsHTML = countries.map(country => {
-
-    return `<article class="card" aria-label="${country.name.common}">
-              <button type="button" class="card-button" data-country="${(country.name.common).split(" ").join("-")}">
-                  <img src="${country.flags.png}" alt="Flag of ${country.name.common}">
-                <div class="info">
-                  <h3>${country.name.common}</h3>
-                  <p><span class="stat">Population:</span> ${country.population.toLocaleString()}</p>
-                  <p><span class="stat">Region:</span> ${country.region}</p>
-                  <p><span class="stat">Capital:</span> ${country.name.common === "Palestine" ? "Jerusalem" : country.capital}</p>
-                </div>
-            </button>
-          </article>`
-  }).join("");
-  cardsWrapper.innerHTML = cardsHTML;
-
-}
 
 // details generator from name
 function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, currencies) {
@@ -147,7 +159,7 @@ function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, curren
         <p><span class="stat">Native Name:</span> ${Object.values(filteredCountryArr[0].name.nativeName)[0].common}</p>
         <p><span class="stat">Population:</span> ${filteredCountryArr[0].population.toLocaleString()}</p>
         <p><span class="stat">Region:</span> ${filteredCountryArr[0].region}</p>
-        <p><span class="stat">Sub Region:</span> ${countryExtraDetails[0].subregion}</p>
+        <p><span class="stat">Sub Region:</span> ${countryExtraDetails[0].subregion ?? countryExtraDetails[0].region}</p>
         <p><span class="stat">Capital:</span> ${filteredCountryArr[0].capital}</p>
       </div>
       <div class="additional-info | info">
@@ -174,7 +186,7 @@ function countryDetailsGeneratorIsoCode(filteredCountryArr, countryExtraDetails,
         <p><span class="stat">Native Name:</span> ${Object.values(filteredCountryArr[0].name.nativeName)[0].common}</p>
         <p><span class="stat">Population:</span> ${filteredCountryArr[0].population.toLocaleString()}</p>
         <p><span class="stat">Region:</span> ${filteredCountryArr[0].region}</p>
-        <p><span class="stat">Sub Region:</span> ${countryExtraDetails.subregion}</p>
+        <p><span class="stat">Sub Region:</span> ${countryExtraDetails.subregion ?? countryExtraDetails.region}</p>
         <p><span class="stat">Capital:</span> ${filteredCountryArr[0].capital}</p>
       </div>
       <div class="additional-info | info">
@@ -320,8 +332,8 @@ cardsWrapper.addEventListener("click", (e) => {
 
     let selectedCountry = (cardBtn.dataset.country).split("-").join(" ");
     // exceptions for these two because the - is in the name not added
-    if (selectedCountry === "Timor Leste" 
-      ||  selectedCountry === "Guinea Bissau") {
+    if (selectedCountry === "Timor Leste"
+      || selectedCountry === "Guinea Bissau") {
       selectedCountry = cardBtn.dataset.country;
     }
 
@@ -354,3 +366,6 @@ detailsWrapper.addEventListener("click", (e) => {
     fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCode);
   }
 })
+
+
+// TODO: fix the local json issue
