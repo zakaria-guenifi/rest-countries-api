@@ -294,9 +294,9 @@ searchInput.addEventListener("input", () => {
 // scroll back up visible on scroll
 window.addEventListener("scroll", () => {
   if (window.scrollY > 600) {
-    scrollBackUp.classList.remove("hidden");
+    scrollBackUp.classList.add("visible-opacity");
   } else {
-    scrollBackUp.classList.add("hidden");
+    scrollBackUp.classList.remove("visible-opacity");
   }
 });
 
@@ -332,17 +332,20 @@ cardsWrapper.addEventListener("click", (e) => {
   const cardBtn = e.target.closest('button[data-country]');
   if (cardBtn && e.target !== cardsWrapper) {
     
-    openDetails();
-
-    let selectedCountry = (cardBtn.dataset.country).split("-").join(" ");
-    // exceptions for these two because the - is in the name not added
-    if (selectedCountry === "Timor Leste"
-      || selectedCountry === "Guinea Bissau") {
-      selectedCountry = cardBtn.dataset.country;
-    }
-
-    let countryExtraDetails = [];
-    fetchShowDetails(countryExtraDetails, selectedCountry);
+    document.startViewTransition(() => {
+      
+      openDetails();
+  
+      let selectedCountry = (cardBtn.dataset.country).split("-").join(" ");
+      // exceptions for these two because the - is in the name not added
+      if (selectedCountry === "Timor Leste"
+        || selectedCountry === "Guinea Bissau") {
+        selectedCountry = cardBtn.dataset.country;
+      }
+  
+      let countryExtraDetails = [];
+      fetchShowDetails(countryExtraDetails, selectedCountry);
+    })
   }
   // set to run before the next paint
   requestAnimationFrame(() => {
@@ -352,29 +355,36 @@ cardsWrapper.addEventListener("click", (e) => {
 
 // back to homepage button
 backBtn.addEventListener("click", () => {
-  controlsSection.classList.toggle("hidden");
-  cardsWrapper.classList.toggle("hidden");
-  details.classList.toggle("hidden");
-  detailsWrapper.innerHTML = "";
-
-  document.documentElement.style.scrollBehavior = "auto";
-  document.documentElement.scrollTo(0, saveScrollLevel);
   
-  // set to run before the next paint
-  requestAnimationFrame(() => {
-    document.documentElement.style.scrollBehavior = "smooth";
-  });
+  document.startViewTransition(() => {
+    
+    controlsSection.classList.toggle("hidden");
+    cardsWrapper.classList.toggle("hidden");
+    details.classList.toggle("hidden");
+    detailsWrapper.innerHTML = "";
+  
+    document.documentElement.style.scrollBehavior = "auto";
+    document.documentElement.scrollTo(0, saveScrollLevel);
+    
+    // set to run before the next paint
+    requestAnimationFrame(() => {
+      document.documentElement.style.scrollBehavior = "smooth";
+    });
+  })
 })
 
 // click the border countries to see their details
 detailsWrapper.addEventListener("click", (e) => {
 
-  const borderCountryBtn = e.target.closest('button[data-iso-code]');
-  if (e.target === borderCountryBtn) {
-    let countryExtraDetails;
-    let selectedCountryIsoCode = e.target.dataset.isoCode;
-
-    fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCode);
-  }
+  document.startViewTransition(() => {
+    
+    const borderCountryBtn = e.target.closest('button[data-iso-code]');
+    if (e.target === borderCountryBtn) {
+      let countryExtraDetails;
+      let selectedCountryIsoCode = e.target.dataset.isoCode;
+  
+      fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCode);
+    }
+  })
 })
 

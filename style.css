@@ -87,23 +87,42 @@
   --shadow-500: 0 0px 15px oklch(0% 0 0 / 0.15);
 }
 
-/* @view-transition {
+@view-transition {
   navigation: auto;
 }
-::view-transition-old(Lithuania),
-::view-transition-new(Lithuania) {
-  animation: none;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
-::view-transition-group(flag) {
-  animation: smooth-move 0.4s ease;
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
 }
 
-@keyframes smooth-move {
-  from { transform: translate(0,0) scale(1); }
-  to   { transform: translate(0,0) scale(1); }
-} */
+@keyframes slide-from-right {
+  from {
+    transform: translateX(80px);
+  }
+}
 
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-80px);
+  }
+}
+
+::view-transition-old(root) {
+  animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+    300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+}
+
+::view-transition-new(root) {
+  animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+    300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+}
 
 /* @media (prefers-color-scheme: dark) {
   :root {
@@ -221,6 +240,7 @@
 
 @layer components {
   header {
+    view-transition-name: main-header;
     justify-items: center;
     margin-block: 0 var(--sp-700);
     padding-block: var(--sp-750);
@@ -239,6 +259,7 @@
         text-decoration: none;
         font-weight: 800;
         color: var(--clr-gray-950);
+        transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover,
         &:focus-visible {
@@ -258,9 +279,17 @@
       border-radius: 4px;
       cursor: pointer;
 
+      svg {
+        transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+          transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
       &:hover,
       &:focus-visible {
         color: var(--clr-gray-300);
+
+        svg {
+          transform: rotate(45deg);
+        }
       }
     }
     @media (width <= 425px) {
@@ -303,6 +332,7 @@
 
       svg {
         color: var(--clr-gray-300);
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
 
@@ -325,6 +355,10 @@
     &:focus-visible {
       filter: brightness(0.8);
       box-shadow: var(--shadow-500);
+
+      svg {
+        transform: translateX(4px);
+      }
     }
     @media (width < 610px) {
       flex-grow: 1;
@@ -364,11 +398,16 @@
         flex: 0 0 auto;
         /* to prevent the svg from catching the click */
         pointer-events: none;
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       }
       &:hover,
       &:focus-visible {
         filter: brightness(0.8);
         box-shadow: var(--shadow-500);
+
+        svg {
+          transform: translateX(-4px);
+        }
       }
     }
   }
@@ -412,6 +451,7 @@
       background: var(--clr-white, #fff);
       border-radius: 8px;
       box-shadow: var(--shadow-400);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
 
       &:hover,
@@ -493,10 +533,17 @@
       box-shadow: var(--shadow-500), var(--shadow-350);
       cursor: pointer;
 
+      svg {
+        transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
       &:hover,
       &:focus-visible {
         filter: brightness(0.96);
         box-shadow: var(--shadow-500);
+        svg {
+          transform: translateX(-4px);
+        }
       }
     }
 
@@ -583,18 +630,27 @@
     inset: auto auto var(--sp-700) 50%;
     inline-size: var(--sp-800);
     block-size: var(--sp-800);
-    transform: translate(-50%, 0);
+    transform: translate(-50%, 12px);
     color: var(--clr-gray-950);
     background-color: var(--clr-white);
     border-radius: 8px;
-    box-shadow: var(--shadow-400);
+    box-shadow: var(--shadow-500), var(--shadow-350);
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+
     svg {
       transform: rotate(90deg);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
     &:hover,
     &:focus-visible {
       filter: brightness(0.8);
       box-shadow: var(--shadow-500), var(--shadow-400);
+
+      svg {
+        transform: translateY(-2px) rotate(90deg);
+      }
     }
   }
 
@@ -603,5 +659,10 @@
   }
   .hidden {
     display: none;
+  }
+  .visible-opacity {
+    opacity: 1;
+    transform: translate(-50%, 0px);
+    pointer-events: auto;
   }
 }
