@@ -344,6 +344,8 @@
 
       svg {
         flex: 0 0 auto;
+        /* to prevent the svg from catching the click */
+        pointer-events: none;
       }
       &:hover,
       &:focus-visible {
@@ -459,7 +461,7 @@
   }
 
   .details {
-    display: none;
+
     #back-btn {
       display: flex;
       justify-content: space-between;
@@ -482,6 +484,7 @@
     }
 
     .details-wrapper {
+    
       img {
         margin-block-end: var(--sp-800);
         inline-size: 100%;
@@ -504,7 +507,10 @@
           padding-block: 0 var(--sp-400);
         }
         .border-countries-btns {
-          display: flex;
+          display: grid;
+          justify-content: center;
+          align-items: center;
+          grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
           justify-content: space-between;
           align-items: center;
           gap: var(--sp-500);
