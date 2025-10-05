@@ -141,23 +141,25 @@ function generateCards(countries) {
 function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, currencies) {
   detailsWrapper.innerHTML =
     `<img src="${filteredCountryArr[0].flags.svg}" alt="Flag of ${filteredCountryArr[0].name.common}">
-    <div class="info">
-      <h2>${filteredCountryArr[0].name.common}</h2>
-      <p><span class="stat">Native Name:</span> ${Object.values(filteredCountryArr[0].name.nativeName)[0].common}</p>
-      <p><span class="stat">Population:</span> ${filteredCountryArr[0].population.toLocaleString()}</p>
-      <p><span class="stat">Region:</span> ${filteredCountryArr[0].region}</p>
-      <p><span class="stat">Sub Region:</span> ${countryExtraDetails[0].subregion}</p>
-      <p><span class="stat">Capital:</span> ${filteredCountryArr[0].capital}</p>
-    </div>
-    <div class="additional-info | info">
-      <p><span class="stat">Top Level Domain:</span> ${countryExtraDetails[0].tld.join(", ")}</p>
-      <p><span class="stat">Currencies:</span> ${currencies()}</p>
-      <p><span class="stat">Languages:</span> ${Object.values(countryExtraDetails[0].languages).join(", ")}</p>
-    </div>
-    <div class="border-countries">
-      <h2>Border Countries:</h2>
-      <div class="border-countries-btns">
-        ${countryExtraDetails[0].borders.map(border => `<button type="button" data-iso-code="${border}">${border}</button>`).join("") || `None`}
+    <div class="end-col">
+      <div class="info">
+        <h2>${filteredCountryArr[0].name.common}</h2>
+        <p><span class="stat">Native Name:</span> ${Object.values(filteredCountryArr[0].name.nativeName)[0].common}</p>
+        <p><span class="stat">Population:</span> ${filteredCountryArr[0].population.toLocaleString()}</p>
+        <p><span class="stat">Region:</span> ${filteredCountryArr[0].region}</p>
+        <p><span class="stat">Sub Region:</span> ${countryExtraDetails[0].subregion}</p>
+        <p><span class="stat">Capital:</span> ${filteredCountryArr[0].capital}</p>
+      </div>
+      <div class="additional-info | info">
+        <p><span class="stat">Top Level Domain:</span> ${countryExtraDetails[0].tld.join(", ")}</p>
+        <p><span class="stat">Currencies:</span> ${currencies()}</p>
+        <p><span class="stat">Languages:</span> ${Object.values(countryExtraDetails[0].languages).join(", ")}</p>
+      </div>
+      <div class="border-countries">
+        <h2>Border Countries:</h2>
+        <div class="border-countries-btns">
+          ${countryExtraDetails[0].borders.map(border => `<button type="button" data-iso-code="${border}">${border}</button>`).join("") || `None`}
+        </div>
       </div>
     </div>`
 }
@@ -166,23 +168,25 @@ function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, curren
 function countryDetailsGeneratorIsoCode(filteredCountryArr, countryExtraDetails, currencies) {
   detailsWrapper.innerHTML =
     `<img src="${filteredCountryArr[0].flags.svg}" alt="Flag of ${filteredCountryArr[0].name.common}">
-    <div class="info">
-      <h2>${filteredCountryArr[0].name.common}</h2>
-      <p><span class="stat">Native Name:</span> ${Object.values(filteredCountryArr[0].name.nativeName)[0].common}</p>
-      <p><span class="stat">Population:</span> ${filteredCountryArr[0].population.toLocaleString()}</p>
-      <p><span class="stat">Region:</span> ${filteredCountryArr[0].region}</p>
-      <p><span class="stat">Sub Region:</span> ${countryExtraDetails.subregion}</p>
-      <p><span class="stat">Capital:</span> ${filteredCountryArr.capital}</p>
-    </div>
-    <div class="additional-info | info">
-      <p><span class="stat">Top Level Domain:</span> ${countryExtraDetails.tld.join(", ")}</p>
-      <p><span class="stat">Currencies:</span> ${currencies()}</p>
-      <p><span class="stat">Languages:</span> ${Object.values(countryExtraDetails.languages).join(", ")}</p>
-    </div>
-    <div class="border-countries">
-      <h2>Border Countries:</h2>
-      <div class="border-countries-btns">
-        ${countryExtraDetails.borders.map(border => `<button type="button" data-iso-code="${border}">${border}</button>`).join("") || `None`}
+    <div class="end-col">
+      <div class="info">
+        <h2>${filteredCountryArr[0].name.common}</h2>
+        <p><span class="stat">Native Name:</span> ${Object.values(filteredCountryArr[0].name.nativeName)[0].common}</p>
+        <p><span class="stat">Population:</span> ${filteredCountryArr[0].population.toLocaleString()}</p>
+        <p><span class="stat">Region:</span> ${filteredCountryArr[0].region}</p>
+        <p><span class="stat">Sub Region:</span> ${countryExtraDetails.subregion}</p>
+        <p><span class="stat">Capital:</span> ${filteredCountryArr[0].capital}</p>
+      </div>
+      <div class="additional-info | info">
+        <p><span class="stat">Top Level Domain:</span> ${countryExtraDetails.tld.join(", ")}</p>
+        <p><span class="stat">Currencies:</span> ${currencies()}</p>
+        <p><span class="stat">Languages:</span> ${Object.values(countryExtraDetails.languages).join(", ")}</p>
+      </div>
+      <div class="border-countries">
+        <h2>Border Countries:</h2>
+        <div class="border-countries-btns">
+          ${countryExtraDetails.borders.map(border => `<button type="button" data-iso-code="${border}">${border}</button>`).join("") || `None`}
+        </div>
       </div>
     </div>`
 }
