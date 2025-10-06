@@ -31,7 +31,7 @@
 :root {
   /* Colors */
   --clr-blue-900: hsl(209, 23%, 22%);
-  --clr-blue-950: hsl(207, 26%, 17%);
+  --clr-blue-950: hsl(209, 26%, 17%);
   --clr-gray-950: hsl(200, 15%, 8%);
   --clr-gray-400: hsl(0, 0%, 50%);
   --clr-gray-300: hsl(0, 0%, 64%);
@@ -451,7 +451,7 @@
       background: var(--clr-white, #fff);
       border-radius: 8px;
       box-shadow: var(--shadow-400);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
 
       &:hover,

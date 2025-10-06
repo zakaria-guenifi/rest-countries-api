@@ -1,4 +1,4 @@
-// fetch-countries.js
+// fetch-countries.js and save to countries.json to be used in case the api goes down
 import fs from "fs";
 import fetch from "node-fetch";
 

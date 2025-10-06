@@ -51,7 +51,7 @@ function generateCards(countries) {
 
     return `<article class="card" aria-label="${country.name.common}">
               <button type="button" class="card-button" data-country="${(country.name.common).split(" ").join("-")}">
-                  <img src="${country.flags.png}" view-transition-name="${(country.name.common).split(" ").join("-")}" alt="Flag of ${country.name.common}">
+                  <img src="${country.flags.png}" alt="Flag of ${country.name.common}" loading="lazy">
                 <div class="info">
                   <h3>${country.name.common}</h3>
                   <p><span class="stat">Population:</span> ${country.population.toLocaleString()}</p>
@@ -152,7 +152,7 @@ async function fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCo
 // details generator from name
 function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, currencies) {
   detailsWrapper.innerHTML =
-    `<img src="${filteredCountryArr[0].flags.svg}" view-transition-name="${(filteredCountryArr[0].name.common).split(" ").join("-")}" alt="Flag of ${filteredCountryArr[0].name.common}">
+    `<img src="${filteredCountryArr[0].flags.svg}" alt="Flag of ${filteredCountryArr[0].name.common}">
     <div class="end-col">
       <div class="info">
         <h2>${filteredCountryArr[0].name.common}</h2>
@@ -333,9 +333,9 @@ cardsWrapper.addEventListener("click", (e) => {
   if (cardBtn && e.target !== cardsWrapper) {
     
     document.startViewTransition(() => {
-      
+
       openDetails();
-  
+      
       let selectedCountry = (cardBtn.dataset.country).split("-").join(" ");
       // exceptions for these two because the - is in the name not added
       if (selectedCountry === "Timor Leste"
