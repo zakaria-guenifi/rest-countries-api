@@ -151,6 +151,7 @@ async function fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCo
 
 // details generator from name
 function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, currencies) {
+
   detailsWrapper.innerHTML =
     `<img src="${filteredCountryArr[0].flags.svg}" alt="Flag of ${filteredCountryArr[0].name.common}">
     <div class="end-col">
@@ -170,7 +171,10 @@ function countryDetailsGenerator(filteredCountryArr, countryExtraDetails, curren
       <div class="border-countries">
         <h2>Border Countries:</h2>
         <div class="border-countries-btns">
-          ${countryExtraDetails[0].borders.map(border => `<button type="button" data-iso-code="${border}">${border}</button>`).join("") || `None`}
+          ${countryExtraDetails[0].borders.map(border => {
+      const countryFromCca3 = countries.find(country => country.cca3 === border).name.common;
+      return `<button type="button" data-iso-code="${border}">${countryFromCca3}</button>`
+    }).join("") || `None`}
         </div>
       </div>
     </div>`
@@ -197,7 +201,10 @@ function countryDetailsGeneratorIsoCode(filteredCountryArr, countryExtraDetails,
       <div class="border-countries">
         <h2>Border Countries:</h2>
         <div class="border-countries-btns">
-          ${countryExtraDetails.borders.map(border => `<button type="button" data-iso-code="${border}">${border}</button>`).join("") || `None`}
+          ${countryExtraDetails.borders.map(border => {
+      const countryFromCca3 = countries.find(country => country.cca3 === border).name.common;
+      return `<button type="button" data-iso-code="${border}">${countryFromCca3}</button>`
+    }).join("") || `None`}
         </div>
       </div>
     </div>`
@@ -331,18 +338,18 @@ cardsWrapper.addEventListener("click", (e) => {
 
   const cardBtn = e.target.closest('button[data-country]');
   if (cardBtn && e.target !== cardsWrapper) {
-    
+
     document.startViewTransition(() => {
 
       openDetails();
-      
+
       let selectedCountry = (cardBtn.dataset.country).split("-").join(" ");
       // exceptions for these two because the - is in the name not added
       if (selectedCountry === "Timor Leste"
         || selectedCountry === "Guinea Bissau") {
         selectedCountry = cardBtn.dataset.country;
       }
-  
+
       let countryExtraDetails = [];
       fetchShowDetails(countryExtraDetails, selectedCountry);
     })
@@ -355,36 +362,47 @@ cardsWrapper.addEventListener("click", (e) => {
 
 // back to homepage button
 backBtn.addEventListener("click", () => {
-  
-  document.startViewTransition(() => {
-    
+
+  function toggleUiUpdate() {
     controlsSection.classList.toggle("hidden");
     cardsWrapper.classList.toggle("hidden");
     details.classList.toggle("hidden");
     detailsWrapper.innerHTML = "";
-  
+
     document.documentElement.style.scrollBehavior = "auto";
     document.documentElement.scrollTo(0, saveScrollLevel);
-    
+
     // set to run before the next paint
     requestAnimationFrame(() => {
       document.documentElement.style.scrollBehavior = "smooth";
     });
-  })
+  }
+
+  if (document.startViewTransition) {
+    document.startViewTransition(toggleUiUpdate);
+  } else {
+    toggleUiUpdate();
+
+  }
 })
 
 // click the border countries to see their details
 detailsWrapper.addEventListener("click", (e) => {
+  const borderCountryBtn = e.target.closest('button[data-iso-code]');
 
-  document.startViewTransition(() => {
-    
-    const borderCountryBtn = e.target.closest('button[data-iso-code]');
-    if (e.target === borderCountryBtn) {
-      let countryExtraDetails;
-      let selectedCountryIsoCode = e.target.dataset.isoCode;
-  
+  if (e.target === borderCountryBtn) {
+    let countryExtraDetails;
+    let selectedCountryIsoCode = e.target.dataset.isoCode;
+    detailsWrapper.innerHTML = "";
+
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCode);
+      })
+    } else {
       fetchShowDetailsIsoCode(countryExtraDetails, selectedCountryIsoCode);
     }
-  })
+
+  }
 })
 
