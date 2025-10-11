@@ -89,7 +89,6 @@ async function fetchCountryDetails(country) {
 async function fetchShowDetails(countryExtraDetails, selectedCountry) {
   let countryDetails = await fetchCountryDetails(selectedCountry);
   countryExtraDetails = await countryDetails.filter(country => country.name.common === selectedCountry);
-  // console.log(countryExtraDetails)
 
   const filteredCountryArr = countries.filter(country => country.name.common === selectedCountry);
 
@@ -231,7 +230,7 @@ function themeHandeler() {
 // initial api fetch 
 (async () => {
   let allcountries = await fetchCountries();
-  countries = await allcountries.filter(country => country.name.common !== "Israel")
+  countries = await allcountries.filter(country => country.name.common !== "Israel").sort((a, b) => a.name.common.localeCompare(b.name.common));
   // console.log(countries)
   generateCards(countries);
 })();
